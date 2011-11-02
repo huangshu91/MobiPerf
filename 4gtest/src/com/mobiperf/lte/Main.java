@@ -1,11 +1,11 @@
 /****************************
- * This file is part of the MobiPerf project (http://mobiperf.com). 
+ * This file is part of the MobiPerf project (http://mobiperf.com).
  * We make it open source to help the research community share our efforts.
  * If you want to use all or part of this project, please give us credit and cite MobiPerf's official website (mobiperf.com).
  * The package is distributed under license GPLv3.
  * If you have any feedbacks or suggestions, don't hesitate to send us emails (3gtest@umich.edu).
  * The server suite source code is not included in this package, if you have specific questions related with servers, please also send us emails
- * 
+ *
  * Contact: 3gtest@umich.edu
  * Development Team: Junxian Huang, Birjodh Tiwana, Zhaoguang Wang, Zhiyun Qian, Cheng Chen, Yutong Pei, Feng Qian, Qiang Xu
  * Copyright: RobustNet Research Group led by Professor Z. Morley Mao, (Department of EECS, University of Michigan, Ann Arbor) and Microsoft Research
@@ -51,12 +51,12 @@ public class Main extends Activity {
 	String test;
 	static boolean stopFlag = false;
 	ProgressBar mProgress;
-	public ListView listView; 
+	public ListView listView;
 	ArrayAdapter<String> adapter;
 	Button button;
 	LinearLayout layout;
 	//Button button1,button2;
-	
+
 	// Need handler for callbacks to the UI thread
 	static Handler mHandler = new Handler();
 
@@ -65,7 +65,7 @@ public class Main extends Activity {
 		Log.w("4G Test", "threegtest start begin");
 
 		super.onStart();
-		
+
 		InformationCenter.init(this);
 
 		doBindService();
@@ -102,13 +102,13 @@ public class Main extends Activity {
 		setContentView( R.layout.main1 );
 
 		button = ( Button ) findViewById( R.id.Button01 );
-		
+
 		layout = (LinearLayout) findViewById(R.id.chart);
 		CubicChart chart = new CubicChart(new double[]{}, new double[]{}, new double[]{});
 		layout.addView(chart.getGraphView(this), new LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
-		
-		
+
+
 		//button2 = ( Button ) findViewById( R.id.button2 );
 		t = (TextView)findViewById(R.id.textview);
 		mProgress = ( ProgressBar ) findViewById( R.id.progress_bar );
@@ -125,12 +125,12 @@ public class Main extends Activity {
 
 		updateUI();
 
-		button.setOnClickListener( 
+		button.setOnClickListener(
 				new View.OnClickListener() {
 					public void onClick( final View view ) {
 						//Utilities.checkifrunning(context);
 
-						if (isRunning())	// Stop service 
+						if (isRunning())	// Stop service
 						{
 							stopFlag = true;
 							updateTextView("The program is trying to stop...");
@@ -142,9 +142,9 @@ public class Main extends Activity {
 							updateTextView("Starting tests...");
 							updateButton("Please wait");
 							button.setClickable(false);
-							
+
 							displayResult();
-							
+
 							updateProgress(0); // clear progress
 							updateListView(new ArrayList<String>());// empty listview
 							Intent svc = new Intent(getApplicationContext(), MainService.class);
@@ -169,21 +169,21 @@ public class Main extends Activity {
 
         //set up text
         TextView text = (TextView) dialog.findViewById(R.id.TextView01);
-        text.setText("STUFF TO WRITE\n");  
+        text.setText("STUFF TO WRITE\n");
         dialog.show();
-        
-        //Create the button 
+
+        //Create the button
         Button button = (Button) dialog.findViewById(R.id.Button01);
         button.setOnClickListener(new OnClickListener() {
 
         //When the button is clicked, call up android test menu
-		@Override
+		//@Override
 		public void onClick(View v) {
 			dialog.dismiss();
 		}
         });
 	}
-	
+
 	public void updateChart(final double[] rtt, final double[] tp_down, final double[] tp_up)
 	{
 		mHandler.post(new Runnable() {
@@ -192,12 +192,12 @@ public class Main extends Activity {
 				CubicChart chart = new CubicChart(rtt, tp_down, tp_up);
 				layout.addView(chart.getGraphView(InformationCenter.activity), new LayoutParams(LayoutParams.FILL_PARENT,
 						LayoutParams.FILL_PARENT));
-				
+
 			}
 		});
 	}
-	
-	
+
+
 	/****** methods for updating UI ******/
 	public void updateTextView(final String text)
 	{
@@ -216,7 +216,7 @@ public class Main extends Activity {
 			}
 		});
 	}
-	
+
 	public void updateButton(final String text)
 	{
 		mHandler.post(new Runnable() {
@@ -227,10 +227,10 @@ public class Main extends Activity {
 	}
 	// update result list
 	public void updateListView(final ArrayList<String> list)
-	{ 	
+	{
 		mHandler.post(new Runnable() {
 			public void run() {
-				listView.setVisibility(View.GONE);           	
+				listView.setVisibility(View.GONE);
 				adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_list_item_1, list);
 				//adapter.setNotifyOnChange(false);
 				listView.setAdapter(adapter);
@@ -241,7 +241,7 @@ public class Main extends Activity {
 	// update button and tv3 based on isRunning();
 	public void updateUI()
 	{
-		if( isRunning() == false) 
+		if( isRunning() == false)
 		{
 			updateButton("Run");
 			button.setClickable(true);
@@ -251,7 +251,7 @@ public class Main extends Activity {
 			button.setClickable(true);
 			updateButton( "Stop" );
 			updateTextView("Tests are running.");
-			
+
 		}
 	}
 	/*************************************************/
@@ -294,7 +294,7 @@ public class Main extends Activity {
 		case MENU_ABOUT:
 			try
 			{
-				
+
 				Intent in1 = new Intent(this, com.mobiperf.lte.ui.About.class);
 				startActivityForResult(in1, 0);
 			}

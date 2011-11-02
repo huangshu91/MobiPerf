@@ -8,6 +8,7 @@
 package com.mobiperf.lte;
 
 import com.mobiperf.lte.test.PacketClient;
+import com.mobiperf.lte.test.PacketClient.ServerType;
 
 import android.app.Service;
 import android.content.Context;
@@ -40,11 +41,6 @@ public class TestCenter{
 		long start = System.currentTimeMillis();
 		long end = start;
 		
-		//TODO comment this when releasing new 4G Test
-		if(true){
-			PacketClient.test();
-			return;
-		}
 
 		InformationCenter.reset();
 
@@ -67,9 +63,53 @@ public class TestCenter{
 		WifiManager wm = ( WifiManager ) service.getSystemService( Context.WIFI_SERVICE );
 		wlw = wm.createWifiLock( "WIFI LOCK TAG" );
 		wlw.acquire();
+		
+		
+		
 
 		//catch any exception here
 		try{
+			
+			//TODO comment this when releasing new 4G Test
+			if(true){
+				//warm up network
+				Utilities.executeCmd("ping -c 1 -w 1 google.com", false);
+				Thread.sleep(15000);
+				
+				//long a, b;
+				double size = 10;
+				//a = System.currentTimeMillis();
+				double tp = PacketClient.testTcp(ServerType.TCP_DOWN_SIZE, size);
+				//b = System.currentTimeMillis();
+				
+				//((MainService)service).addResultAndUpdateUI("Throughput " + tp + " kbps, time " + (b - a), 100);
+				Thread.sleep(15000);
+				
+				tp = PacketClient.testTcp(ServerType.TCP_DOWN_SIZE, size);
+				
+				//((MainService)service).addResultAndUpdateUI("Throughput " + tp + " kbps, time " + (b - a), 100);
+				Thread.sleep(15000);
+				
+				tp = PacketClient.testTcp(ServerType.TCP_DOWN_SIZE, size);
+			
+				Thread.sleep(15000);
+				
+				tp = PacketClient.testTcp(ServerType.TCP_DOWN_SIZE, size);
+				
+				Thread.sleep(15000);
+				
+				tp = PacketClient.testTcp(ServerType.TCP_DOWN_SIZE, size);
+				
+				Thread.sleep(15000);
+				
+				//((MainService)service).addResultAndUpdateUI("Throughput " + tp + " kbps, time " + (b - a), 100);
+				//PacketClient.testUdpDown();
+				//*/
+				Main.stopFlag = false;
+				wakeLock.release();
+				wlw.release();
+				return;
+			}//*/
 
 			//checking network connectivity by connecting to google.com
 
@@ -199,7 +239,7 @@ public class TestCenter{
 			
 
 			progress = 100;
-			((MainService)service).addResultAndUpdateUI("Test finishes", progress);//TCP UP
+			((MainService)service).addResultAndUpdateUI("Test finishes " + InformationCenter.getRunId(), progress);//TCP UP
 
 		}catch(Exception e){
 			System.out.println("The outer big try in Service_Thread.java");
