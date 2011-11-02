@@ -144,7 +144,7 @@ public class Main extends Activity {
 							button.setClickable(false);
 
 							displayResult();
-
+							
 							updateProgress(0); // clear progress
 							updateListView(new ArrayList<String>());// empty listview
 							Intent svc = new Intent(getApplicationContext(), MainService.class);
