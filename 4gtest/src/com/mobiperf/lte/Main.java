@@ -142,7 +142,7 @@ public class Main extends Activity {
 							updateTextView("Starting tests...");
 							updateButton("Please wait");
 							button.setClickable(false);
-							
+							fdafdafdafdsfdasfsdaf
 
 							displayResult();
 							
